@@ -5,7 +5,7 @@ pipeline {
             maven 'mvn3'
         }
         environment{
-            APP_NAME = "forthewar"
+            APP_NAME = "rforthewar"
             DOCKER_USER = "mshow1980"
             RELEASE_NUMBER = "1.0.0"
             REGISTRY_CREDS = 'Docker-login'
@@ -64,7 +64,11 @@ pipeline {
                 steps{
                     script{
                         withSonarQubeEnv(credentialsId: 'SOnar-token') {
-                            sh 'mvn sonar:sonar'
+                            sh """
+                            mvn sonar:sonar   
+                            -Dsonar.projectKey={{forthewar}}  
+                            -Dsonar.projectName={{forthewar}}
+                            """
                         }
                     }
                 }
