@@ -63,7 +63,7 @@ pipeline {
             stage('SonarQube Analysis'){
                 steps{
                     script{
-                        withSonarQubeEnv(credentialsId: 'SonarQube') {
+                        withSonarQubeEnv(credentialsId: 'SOnar-token') {
                             sh" ${SCANNER_HOME}}/bin/sonar-scanner \
                             -Dsonar.projectKey=simple_webapp \
                             -Dsonar.sources=. "
