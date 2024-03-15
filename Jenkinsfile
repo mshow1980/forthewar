@@ -80,7 +80,7 @@ pipeline {
                 steps{
                     script{
                         withDockerRegistry(credentialsId: 'Docker-login') {
-                            docker_image = docker.build '${IMAGE_NAME}'
+                            docker_image = docker.build "${IMAGE_NAME}"
                         }
                         withDockerRegistry(credentialsId: 'Docker-login') {
                             docker_image.push(${BUILD_NUMBER})
