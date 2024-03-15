@@ -5,7 +5,7 @@ pipeline {
             jdk 'jdk17'
         }
         environment{
-            APP_NAME = "rforthewar"
+            APP_NAME = "forthewar"
             DOCKER_USER = "mshow1980"
             RELEASE_NUMBER = "1.0.0"
             REGISTRY_CREDS = 'Docker-login'
@@ -83,7 +83,7 @@ pipeline {
                             docker_image = docker.build "${IMAGE_NAME}"
                         }
                         withDockerRegistry(credentialsId: 'Docker-login') {
-                            docker_image.push(${BUILD_NUMBER})
+                            docker_image.push("${BUILD_NUMBER}")
                             docker_image.push('lastest')
                         }
                     }
