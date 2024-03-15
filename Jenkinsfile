@@ -1,7 +1,6 @@
 pipeline {
     agent any 
         tools {
-            jdk 'jdk11'
             maven 'mvn3'
         }
         environment{
@@ -64,11 +63,7 @@ pipeline {
                 steps{
                     script{
                         withSonarQubeEnv(credentialsId: 'SOnar-token') {
-                            sh """
-                            mvn sonar:sonar   
-                            -Dsonar.projectKey={{forthewar}}  
-                            -Dsonar.projectName={{forthewar}}
-                            """
+                            sh 'mvn sonar:sonar'
                         }
                     }
                 }
