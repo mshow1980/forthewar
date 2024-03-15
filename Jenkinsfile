@@ -84,8 +84,15 @@ pipeline {
                         }
                         withDockerRegistry(credentialsId: 'Docker-login') {
                             docker_image.push("${BUILD_NUMBER}")
-                            docker_image.push('lastest')
+                            docker_image.push('latest')
                         }
+                    }
+                }
+            }
+            stage('TRIVY FS IMAGE SCAN'){
+                steps{
+                    script{
+                    sh 'trivy image ("${IMAGE_NAME}":('latest'))'
                     }
                 }
             }
