@@ -9,7 +9,6 @@ pipeline {
             DOCKER_USER = "mshow1980"
             RELEASE_NUMBER = "1.0.0"
             REGISTRY_CREDS = 'Docker-login'
-            SCANNER_HOME = tool 'Sonar-Scanner'
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAGE = "${RELEASE_NUMBER}-${BUILD_NUMBER}"
         }
