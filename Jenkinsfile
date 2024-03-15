@@ -8,6 +8,7 @@ pipeline {
             DOCKER_USER = "mshow1980"
             RELEASE_NUMBER = "1.0.0"
             REGISTRY_CREDS = 'Docker-login'
+            SCANNER_HOME = tool 'Sonar-Scanner'
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAGE = "${RELEASE_NUMBER}-${BUILD_NUMBER}"
         }
@@ -62,8 +63,10 @@ pipeline {
             stage('SonarQube Analysis'){
                 steps{
                     script{
-                        withSonarQubeEnv(credentialsId: 'SOnar-token') {
-                            sh 'mvn sonar:sonar'
+                        withSonarQubeEnv(credentialsId: 'SonarQube') {
+                            sh" ${SCANNER_HOME}}/bin/sonar-scanner \
+                            -Dsonar.projectKey=simple_webapp \
+                            -Dsonar.sources=. "
                         }
                     }
                 }
