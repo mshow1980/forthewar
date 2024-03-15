@@ -1,8 +1,16 @@
 pipeline {
     agent any 
         tools {
-            jdk 'jdk17'
+            jdk 'jdk11'
             maven 'mvn3'
+        }
+        environment{
+            APP_NAME = "forthewar"
+            DOCKER_USER = "mshow1980"
+            RELEASE_NUMBER = "1.0.0"
+            REGISTRY_CREDS = 'Docker-login'
+            IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
+            IMAGE_TAGE = "${RELEASE_NUMBER}-${BUILD_NUMBER}"
         }
         stages {
             stage('Clean WorkSpace'){
@@ -29,12 +37,12 @@ pipeline {
             stage('OWASP Dependency-Check Vulnerabilities'){
                 steps{
                     script{
-                dependencyCheck additionalArguments: ''' 
+                    dependencyCheck additionalArguments: ''' 
                     -o "./" 
                     -s "./"
                     -f "ALL" 
                     --prettyPrint''', odcInstallation: 'OWASP-DC'
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
                     }
                 }
             }
@@ -65,6 +73,19 @@ pipeline {
                 steps{
                     script{
                         waitForQualityGate abortPipeline: false, credentialsId: 'SOnar-token'
+                    }
+                }
+            }
+            stage('Build Docker Image'){
+                steps{
+                    script{
+                        withDockerRegistry(credentialsId: 'Docker-login') {
+                            docker_image = docker.build "${IMAGE_NAME}"
+                        }
+                        withDockerRegistry(credentialsId: 'Docker-login') {
+                            docker_image.push(${BUILD_NUMBER})
+                            docker_image.push('lastest')
+                        }
                     }
                 }
             }
