@@ -92,7 +92,7 @@ pipeline {
             stage('TRIVY FS IMAGE SCAN'){
                 steps{
                     script{
-                    sh 'trivy image ("${IMAGE_NAME}":('latest'))'
+                    sh 'trivy image "${IMAGE_NAME}":latest'
                     }
                 }
             }
