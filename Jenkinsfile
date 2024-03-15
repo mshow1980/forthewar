@@ -2,7 +2,7 @@ pipeline {
     agent any 
         tools {
             maven 'mvn3'
-            jdk 'jdk8'
+            jdk 'jdk17'
         }
         environment{
             APP_NAME = "rforthewar"
