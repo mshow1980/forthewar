@@ -82,7 +82,7 @@ pipeline {
                         withDockerRegistry(credentialsId: 'docker-login') {
                             docker_image = docker.build "${IMAGE_NAME}"
                         }
-                        withDockerRegistry(credentialsId: 'Docker-login') {
+                        withDockerRegistry(credentialsId: 'docker-login') {
                             docker_image.push("${BUILD_NUMBER}")
                             docker_image.push('latest')
                         }
