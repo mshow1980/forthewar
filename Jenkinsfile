@@ -11,6 +11,7 @@ pipeline {
             REGISTRY_CREDS = 'docker-login'
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAGE = "${RELEASE_NUMBER}-${BUILD_NUMBER}"
+            JENKINS-API-TOKEN = credentials('JENKINS-API-TOKEN')
         }
         stages {
             stage('Clean WorkSpace'){
@@ -93,6 +94,13 @@ pipeline {
                 steps{
                     script{
                     sh 'trivy image "${IMAGE_NAME}":latest'
+                    }
+                }
+            }
+            stage('Updating Deployment File'){
+                steps{
+                    script{
+                        sh "curl -v -k --user admin:${JENKINS-API-TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://3.95.27.46:8080/job/gitops-deployment/buildWithParameters?token=SCION_SCOPE'"
                     }
                 }
             }
