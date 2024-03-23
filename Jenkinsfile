@@ -5,10 +5,10 @@ pipeline {
             jdk 'jdk17'
         }
         environment{
-            APP_NAME = "forthewar"
+            APP_NAME = "thewargame"
             DOCKER_USER = "mshow1980"
             RELEASE_NUMBER = "1.0.0"
-            REGISTRY_CREDS = 'Docker-login'
+            REGISTRY_CREDS = 'docker-login'
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAGE = "${RELEASE_NUMBER}-${BUILD_NUMBER}"
         }
@@ -63,7 +63,7 @@ pipeline {
             stage('SonarQube Analysis'){
                 steps{
                     script{
-                        withSonarQubeEnv(credentialsId: 'SOnar-token') {
+                        withSonarQubeEnv(credentialsId: 'SOnar-Token') {
                             sh 'mvn sonar:sonar'
                         }
                     }
@@ -72,14 +72,14 @@ pipeline {
             stage('Quality Gate'){
                 steps{
                     script{
-                        waitForQualityGate abortPipeline: false, credentialsId: 'SOnar-token'
+                        waitForQualityGate abortPipeline: false, credentialsId: 'SOnar-Token'
                     }
                 }
             }
             stage('Build Docker Image'){
                 steps{
                     script{
-                        withDockerRegistry(credentialsId: 'Docker-login') {
+                        withDockerRegistry(credentialsId: 'docker-login') {
                             docker_image = docker.build "${IMAGE_NAME}"
                         }
                         withDockerRegistry(credentialsId: 'Docker-login') {
