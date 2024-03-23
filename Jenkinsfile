@@ -11,7 +11,7 @@ pipeline {
             REGISTRY_CREDS = 'docker-login'
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAGE = "${RELEASE_NUMBER}-${BUILD_NUMBER}"
-            JENKINS-API-TOKEN = (credentialsId: 'JENKINS-API-TOKEN')
+            JENKINS-API-TOKEN =   withCredentials('JENKINS-API-TOKEN')
         }
         stages {
             stage('Clean WorkSpace'){
