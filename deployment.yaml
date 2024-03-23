@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: scion-scope
-          image: mshow1980/today-webapp:1.0.0-9
+          image: mshow1980/forthewar:1.0.0-9
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080 # The port that the container is running on in the cluster

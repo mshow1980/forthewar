@@ -1,11 +1,11 @@
 pipeline{
     agent any 
     environment{
-        APP_NAME = "today-webapp"
+        APP_NAME = "forthewar"
         RELEASE = "1.0.0"
         GIT_USERNAME = "mshow1980"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
-        REGISTRY_CREDS  = "git-token"
+        REGISTRY_CREDS  = "JENKINS-API-TOKEN"
 
 
     }
@@ -20,7 +20,7 @@ pipeline{
         stage('Checkout SCM'){
             steps{
                 script{
-                    checkout scmGit(branches: [[name: '*/deployment']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mshow1980/today-webapp.git']])
+			checkout scmGit(branches: [[name: '*/deployment']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/mshow1980/forthewar.git']])
                 }
             }
         }
@@ -39,7 +39,7 @@ pipeline{
                         """
                     }
                     withCredentials([gitUsernamePassword(credentialsId: 'git-token', gitToolName: 'Default')]) {
-                    sh 'git push https://github.com/mshow1980/today-webapp.git deployment '
+                    sh 'git push https://github.com/mshow1980/forthewar.git deployment '
                 }
             }
         }
