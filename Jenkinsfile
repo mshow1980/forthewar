@@ -11,6 +11,7 @@ pipeline {
             REGISTRY_CREDS = 'docker-login'
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAGE = "${RELEASE_NUMBER}-${BUILD_NUMBER}"
+            JENKINS-API-TOKEN = (credentialsId: 'JENKINS-API-TOKEN')
         }
         stages {
             stage('Clean WorkSpace'){
@@ -99,9 +100,7 @@ pipeline {
             stage('Updating Deployment File'){
                 steps{
                     script{
-                        withCredentials([string(credentialsId: 'JENKINS-API-TOKEN', variable: '')]) {
                         sh "curl -v -k --user admin:${JENKINS-API-TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'http://3.95.27.46:8080/job/gitops-deployment/buildWithParameters?token=SCION_SCOPE'"
-                        }
                     }
                 }
             }
