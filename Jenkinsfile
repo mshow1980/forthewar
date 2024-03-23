@@ -96,5 +96,14 @@ pipeline {
                     }
                 }
             }
+            stage('Deploying Artifact'){
+                steps{
+                    script{
+                        withMaven(globalMavenSettingsConfig: 'Nexus-Global', jdk: 'jdk17', maven: 'mvn3', mavenSettingsConfig: '', traceability: true) {
+                            sh 'mvn deploy'
+                        }
+                    }
+                }
+            }
         }
     }
